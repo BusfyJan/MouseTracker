@@ -1,5 +1,5 @@
 /**
-* MouseDistanceTracker main file
+* MouseTracker main file
 * @author Jan Busfy
 */
 (function(){
@@ -30,10 +30,10 @@
 	};
 
 	/**
-	* MouseDistanceTracker - main initialization object
+	* MouseTracker - main initialization object
 	* @param array config - plugin init config
 	*/
-	function MouseDistanceTracker(config){
+	function MouseTracker(config){
 		//this object
 		var _this = this;	
 		
@@ -159,6 +159,6 @@
 
 
 	//show API to the world
-	window.MouseDistanceTracker = MouseDistanceTracker;
+	window.MouseTracker = MouseTracker;
 
 })();
