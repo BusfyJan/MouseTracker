@@ -4,13 +4,19 @@
 		<meta charset="UTF-8" />
 
 		<script type="text/javascript" src="../src/mouseTracker.js"></script>
-	</head>
-	<body>
 		<script type="text/javascript">
+			//plugin initialization			
 			var mt = MouseTracker({
+				//configuration(optional)
 				remember_user: true
-			});
-			mt.test();
+			});			
+
+			function printDistanceTraveled(){
+				alert("Actual distance traveled is: " + mt.getDistanceTraveled() + " mm");
+			};
 		</script>
+	</head>
+	<body>		
+		<input type="button" onClick="printDistanceTraveled()" value="Print distance traveled!" />
 	</body>
 </html>
