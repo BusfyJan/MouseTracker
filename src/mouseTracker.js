@@ -8,7 +8,8 @@
 	* Default values for plugin initialization
 	*/ 
 	var DEFAULTS = {
-		remember_user: false		
+		remember_user: false,
+		onDistanceChanged: false	
 	};
 
 	/**
@@ -126,6 +127,14 @@
 			if(_this.config.remember_user){				
 				_this.storageManager.setKey("distanceTraveled", _this.actualDistance);
 			}
+
+			//call registered callback
+			if(_this.config['onDistanceChanged'] !== false){
+				_this.config['onDistanceChanged'](
+					_this.utility.convertPixelsToMilimeters(_this.actualDistance),
+					_this.utility.convertPixelsToMilimeters(gain)
+				);
+			}
 		};
 
 		//delegate handler objects
@@ -140,13 +149,14 @@
 
 		//managers
 		_this.trackingManager = new TrackingManager(_this.trackingDelegate, _this.utility);
-		_this.storageManager = new StorageManager();		
+		_this.storageManager = new StorageManager();	
+		_this.api = new API(_this.apiDelegate);	
 
 		//initialize self with user filled config
 		_this.init(config);
 
-		//create and return API
-		return new API(_this.apiDelegate);	
+		//return API
+		return _this.api;
 	};	
 
 	/**
