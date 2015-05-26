@@ -14,9 +14,15 @@
 			function printDistanceTraveled(){
 				alert("Actual distance traveled is: " + mt.getDistanceTraveled() + " mm");
 			};
+
+			function clearDistanceTraveled(){
+				mt.clearDistanceTraveled();
+				alert("Actual distance was cleared!");
+			};
 		</script>
 	</head>
 	<body>		
 		<input type="button" onClick="printDistanceTraveled()" value="Print distance traveled!" />
+		<input type="button" onClick="clearDistanceTraveled()" value="Clear distance traveled!" />
 	</body>
 </html>

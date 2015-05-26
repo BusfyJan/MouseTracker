@@ -29,10 +29,18 @@
 		_this.delegate = delegate;
 
 		/**
-		* Test function for testing purposes
+		* Returns distance traveled
+		* @return float - distance in MM
 		*/ 
 		_this.getDistanceTraveled = function(){
 			return _this.delegate.getDistanceTraveled();
+		};
+
+		/**
+		* Clears distance traveled
+		*/
+		_this.clearDistanceTraveled = function(){
+			_this.delegate.clearDistanceTraveled();
 		};
 	};
 
@@ -91,8 +99,20 @@
 		* Returns actual traveled distance in MM
 		* @return float - actual traveled distance
 		*/
-		_this.apiGetDistanceTraveled = function(){
+		_this.getActualDistance = function(){
 			return _this.utility.convertPixelsToMilimeters(_this.actualDistance);
+		};
+
+		/**
+		* Clears actual distance
+		*/
+		_this.clearActualDistance = function(){
+			_this.actualDistance = 0;
+
+			//save if remembering user
+			if(_this.config.remember_user){				
+				_this.storageManager.setKey("distanceTraveled", _this.actualDistance);
+			}
 		};
 
 		/**
@@ -110,7 +130,8 @@
 
 		//delegate handler objects
 		_this.apiDelegate = {
-			getDistanceTraveled: apiGetDistanceTraveled
+			getDistanceTraveled: _this.getActualDistance,
+			clearDistanceTraveled: _this.clearActualDistance
 		};
 
 		_this.trackingDelegate = {
