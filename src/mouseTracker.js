@@ -9,7 +9,8 @@
 	*/ 
 	var DEFAULTS = {
 		remember_user: false,
-		onDistanceChanged: false	
+		onDistanceChanged: false,
+		distanceUnits: "mm" //['mm', 'inch']
 	};
 
 	/**
@@ -31,7 +32,7 @@
 
 		/**
 		* Returns distance traveled
-		* @return float - distance in MM
+		* @return float - distance in distance units
 		*/ 
 		_this.getDistanceTraveled = function(){
 			return _this.delegate.getDistanceTraveled();
@@ -97,11 +98,14 @@
 		}
 
 		/**
-		* Returns actual traveled distance in MM
+		* Returns actual traveled distance in distance units
 		* @return float - actual traveled distance
 		*/
 		_this.getActualDistance = function(){
-			return _this.utility.convertPixelsToMilimeters(_this.actualDistance);
+			return _this.utility.convertPixelsToDistanceUnits(
+				_this.actualDistance,
+				_this.config.distanceUnits
+			);
 		};
 
 		/**
@@ -131,8 +135,14 @@
 			//call registered callback
 			if(_this.config['onDistanceChanged'] !== false){
 				_this.config['onDistanceChanged'](
-					_this.utility.convertPixelsToMilimeters(_this.actualDistance),
-					_this.utility.convertPixelsToMilimeters(gain)
+					_this.utility.convertPixelsToDistanceUnits(
+						_this.actualDistance,
+						_this.config.distanceUnits
+					),
+					_this.utility.convertPixelsToDistanceUnits(
+						gain,
+						_this.config.distanceUnits
+					)
 				);
 			}
 		};
@@ -283,12 +293,31 @@
 		};
 
 		/**
-		* Conversion function. Converts PX to MM
+		* Conversion function. Converts PX to distance units
 		* @param float pixels - PX units
-		* @return float - MM units
+		* @param string distanceUnits - ['mm', 'inch']
+		* @return float - distance units
 		*/
-		_this.convertPixelsToMilimeters = function(pixels){
-			return (pixels * 2.54 / 96) * 10;
+		_this.convertPixelsToDistanceUnits = function(pixels, distanceUnits){
+			//get pixels to distanceUnits ratio
+			var pxToDistanceUnitsRatio = 0;
+
+			switch(distanceUnits){
+				case 'mm':
+					pxToDistanceUnitsRatio = 2.54 / 96 * 10;
+				break;
+
+				case 'inch':
+					pxToDistanceUnitsRatio = 2.54 / 96 * 10 / 25.4;
+				break;
+
+				default:
+					throw new Error("Distance units not correct");
+				break;
+			}
+
+			//use pixels to distanceUnits ratio to compute distance from pixels
+			return pixels * pxToDistanceUnitsRatio;
 		};
 	};
 

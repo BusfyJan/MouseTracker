@@ -16,6 +16,7 @@ An useful JavaScript plugin suitable for tracking distance traveled by specific 
 	var mt = MouseTracker({
 		//configuration(optional)
 		remember_user: true,
+		distanceUnits: 'mm', //['mm', 'inch']
 		onDistanceChanged: function(distance, gain){
 			console.log("onDistanceChanged: " + distance + " - " + gain);
 		}
